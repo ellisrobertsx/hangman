@@ -139,8 +139,10 @@ def main():
         word_list = select_game_mode()  # Get the word list based on the selected mode
         hangman(word_list)
         replay = input("Do you want to play again? (yes/no): ").lower()
-        if replay != 'yes':
-            break
+        if replay == 'no':
+            continue  # Go back to the game mode selection screen
+        elif replay != 'yes':
+            break  # Exit the game
 
 # Run the game
 main()
