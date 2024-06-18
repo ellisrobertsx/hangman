@@ -96,20 +96,20 @@ def choose_word(word_list):
 
 
 def hangman(word_list):
-    word = choose_word(word_list)
-    word_letters = set(word)
+    word = choose_word(word_list).lower()
+    word_letters = set(word.replace(" ", ""))  # Set of letters excluding spaces
     guessed_letters = set()
     incorrect_guesses = 0
     
     print("Welcome to Hangman!")
-    print("/ " * len(word))  # Initial display with '/' instead of '_'
+    print(" ".join("/" if char == " " else "_" for char in word))  # Initial display with '/' for spaces
     
     while incorrect_guesses < max_guesses and word_letters:
         print(hangman_stages[incorrect_guesses])
         print(f"\nYou have {max_guesses - incorrect_guesses} guesses left.")
         print("Guessed letters:", " ".join(sorted(guessed_letters)))
         
-        word_display = [letter if letter in guessed_letters else "_" for letter in word]  
+        word_display = [letter if letter in guessed_letters else ("/" if letter == " " else "_") for letter in word]  # Use '/' for spaces and '_' for unknown letters
         print("Current word:", " ".join(word_display))
         
         guess = input("Guess a letter: ").lower()
@@ -122,6 +122,9 @@ def hangman(word_list):
             print(f"Good guess! '{guess}' is in the word.")
             guessed_letters.add(guess)
             word_letters.remove(guess)
+            if not word_letters:  # Word has been completely guessed
+                print(f"\nCongratulations! You guessed the word '{word}'!")
+                break
         else:
             print(f"Sorry, '{guess}' is not in the word.")
             guessed_letters.add(guess)
@@ -130,8 +133,6 @@ def hangman(word_list):
     if word_letters:
         print(hangman_stages[incorrect_guesses])
         print(f"\nYou lost! The word was '{word}'.")
-    else:
-        print(f"\nCongratulations! You guessed the word '{word}'!")
 
 def main():
     while True:
