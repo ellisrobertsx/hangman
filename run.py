@@ -80,7 +80,7 @@ hangman_stages = [
 """ Function allows user to select between 3 different game modes"""
 def select_game_mode():
     while True:
-        mode = input("Select a game mode: Press 'A' for action, 'B' for horror, or 'C' for comedy: ").upper()
+        mode = input("Select a game mode: Press 'A' for action, 'B' for horror, or 'C' for comedy: \n").upper()
         if mode == 'A':
             return action_list
         elif mode == 'B':
