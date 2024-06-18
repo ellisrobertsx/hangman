@@ -95,3 +95,8 @@ def choose_word(word_list):
     return random.choice(word_list)
 
 
+def hangman(word_list):
+    word = choose_word(word_list)
+    word_letters = set(word)
+    guessed_letters = set()
+    incorrect_guesses = 0
