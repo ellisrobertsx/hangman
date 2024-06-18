@@ -100,3 +100,46 @@ def hangman(word_list):
     word_letters = set(word)
     guessed_letters = set()
     incorrect_guesses = 0
+    
+    print("Welcome to Hangman!")
+    print("/ " * len(word))  # Initial display with '/' instead of '_'
+    
+    while incorrect_guesses < max_guesses and word_letters:
+        print(hangman_stages[incorrect_guesses])
+        print(f"\nYou have {max_guesses - incorrect_guesses} guesses left.")
+        print("Guessed letters:", " ".join(sorted(guessed_letters)))
+        
+        word_display = [letter if letter in guessed_letters else "_" for letter in word]  
+        print("Current word:", " ".join(word_display))
+        
+        guess = input("Guess a letter: ").lower()
+        
+        if len(guess) != 1 or not guess.isalpha():
+            print("Invalid input. Please enter a single alphabetic character.")
+        elif guess in guessed_letters:
+            print("You have already guessed that letter. Try again.")
+        elif guess in word_letters:
+            print(f"Good guess! '{guess}' is in the word.")
+            guessed_letters.add(guess)
+            word_letters.remove(guess)
+        else:
+            print(f"Sorry, '{guess}' is not in the word.")
+            guessed_letters.add(guess)
+            incorrect_guesses += 1
+    
+    if word_letters:
+        print(hangman_stages[incorrect_guesses])
+        print(f"\nYou lost! The word was '{word}'.")
+    else:
+        print(f"\nCongratulations! You guessed the word '{word}'!")
+
+def main():
+    while True:
+        word_list = select_game_mode()  # Get the word list based on the selected mode
+        hangman(word_list)
+        replay = input("Do you want to play again? (yes/no): ").lower()
+        if replay != 'yes':
+            break
+
+# Run the game
+main()
