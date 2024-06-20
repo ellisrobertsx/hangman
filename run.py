@@ -96,11 +96,11 @@ def select_game_mode():
             "or 'C' for comedy: \n"
         ).upper()
         if mode == 'A':
-            return action_list
+            return action_list  # Return action list if 'A' is chosen
         elif mode == 'B':
-            return horror_list
+            return horror_list  # Return horror list if 'B' is chosen
         elif mode == 'C':
-            return comedy_list
+            return comedy_list  # Return comedy list if 'C' is chosen
         else:
             print(
                 "Invalid choice. Please press 'A' for action, 'B' for horror, "
@@ -115,21 +115,20 @@ def choose_word(word_list):
 
 def hangman(word_list):
     word = choose_word(word_list).lower()
-    word_letters = set(word.replace(" ", ""))
-    guessed_letters = set()
-    incorrect_guesses = 0
+    word_letters = set(word.replace(" ", ""))  # Create a set of letters in the word, excluding spaces
+    guessed_letters = set()  # Set to store guessed letters
+    incorrect_guesses = 0  # Counter for incorrect guesses
 
     print("Welcome to Hangman!")
-    print(" ".join("/" if char == " " else "_" for char in word))
+    print(" ".join("/" if char == " " else "_" for char in word))  # Display initial word with spaces as '/'
 
     while incorrect_guesses < max_guesses and word_letters:
-        print(hangman_stages[incorrect_guesses])
+        print(hangman_stages[incorrect_guesses])  # Display current hangman stage
         print(f"\nYou have {max_guesses - incorrect_guesses} guesses left.")
         print("Guessed letters:", " ".join(sorted(guessed_letters)))
 
         word_display = [
-            letter if letter in guessed_letters else ("/" if letter == " "
-                                                      else "_")
+            letter if letter in guessed_letters else ("/" if letter == " " else "_")
             for letter in word
         ]
         print("Current word:", " ".join(word_display))
@@ -152,7 +151,7 @@ def hangman(word_list):
             guessed_letters.add(guess)
             incorrect_guesses += 1
 
-    if word_letters:
+    if word_letters:  # If there are still letters to guess, the player lost
         print(hangman_stages[incorrect_guesses])
         print(f"\nYou lost! The word was '{word}'.")
 
@@ -161,13 +160,13 @@ def main():
     print('Welcome to Hangman!')
     print('Please select from one of the following game modes...')
     while True:
-        word_list = select_game_mode()
-        hangman(word_list)
+        word_list = select_game_mode()  # Select game mode
+        hangman(word_list)  # Start the hangman game
         replay = input("Do you want to play again? (yes/no): ").lower()
         if replay == 'no':
-            continue
+            continue  # Return to mode selection if 'no' is chosen
         elif replay != 'yes':
-            break
+            break  # Exit the game if input is not 'yes'
 
 
 # Run the game
