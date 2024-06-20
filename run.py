@@ -1,15 +1,26 @@
 import random
 
 # List of possible words
-comedy_list = ['step brothers', 'the hangover', 'grown ups', 'dodgeball', 'internship', 'ted', 'scary movie', 'american pie', 'due date', 'the other guys']
-action_list = ['james bond', 'john wick', 'the matrix', 'rambo', 'the gray man', 'deep water horizon', 'the maze runner', 'batman', 'catch me if you can', 'heat']
-horror_list = ['saw', 'the purge', 'halloween', 'a nightmare on elm street', 'the conjuring', 'psycho', 'scream', 'paranormal activity', 'alien', 'the silence of the lambs']
+comedy_list = [
+    'step brothers', 'the hangover', 'grown ups', 'dodgeball',
+    'internship', 'ted', 'scary movie', 'american pie',
+    'due date', 'the other guys'
+]
+action_list = [
+    'james bond', 'john wick', 'the matrix', 'rambo',
+    'the gray man', 'deep water horizon', 'the maze runner',
+    'batman', 'catch me if you can', 'heat'
+]
+horror_list = [
+    'saw', 'the purge', 'halloween', 'a nightmare on elm street',
+    'the conjuring', 'psycho', 'scream', 'paranormal activity',
+    'alien', 'the silence of the lambs'
+]
 
-
-#Max number of guesses allowed 
+# Max number of guesses allowed
 max_guesses = 6
 
-# Hangman Stages 
+# Hangman stages
 hangman_stages = [
     """
      -----
@@ -77,10 +88,13 @@ hangman_stages = [
 ]
 
 
-""" Function allows user to select between 3 different game modes"""
+# Function allows user to select between 3 different game modes
 def select_game_mode():
     while True:
-        mode = input("Select a game mode: Press 'A' for action, 'B' for horror, or 'C' for comedy: \n").upper()
+        mode = input(
+            "Select a game mode: Press 'A' for action, 'B' for horror, "
+            "or 'C' for comedy: \n"
+        ).upper()
         if mode == 'A':
             return action_list
         elif mode == 'B':
@@ -88,7 +102,11 @@ def select_game_mode():
         elif mode == 'C':
             return comedy_list
         else:
-            print("Invalid choice. Please press 'A' for action, 'B' for horror, or 'C' for comedy.")
+            print(
+                "Invalid choice. Please press 'A' for action, 'B' for horror, "
+                "or 'C' for comedy."
+            )
+
 
 # Selects a random word from the appropriate list
 def choose_word(word_list):
@@ -97,23 +115,27 @@ def choose_word(word_list):
 
 def hangman(word_list):
     word = choose_word(word_list).lower()
-    word_letters = set(word.replace(" ", "")) 
+    word_letters = set(word.replace(" ", ""))
     guessed_letters = set()
     incorrect_guesses = 0
-    
+
     print("Welcome to Hangman!")
-    print(" ".join("/" if char == " " else "_" for char in word))  
-    
+    print(" ".join("/" if char == " " else "_" for char in word))
+
     while incorrect_guesses < max_guesses and word_letters:
         print(hangman_stages[incorrect_guesses])
         print(f"\nYou have {max_guesses - incorrect_guesses} guesses left.")
         print("Guessed letters:", " ".join(sorted(guessed_letters)))
-        
-        word_display = [letter if letter in guessed_letters else ("/" if letter == " " else "_") for letter in word]  # Use '/' for spaces and '_' for unknown letters
+
+        word_display = [
+            letter if letter in guessed_letters else ("/" if letter == " "
+                                                      else "_")
+            for letter in word
+        ]
         print("Current word:", " ".join(word_display))
-        
+
         guess = input("Guess a letter: ").lower()
-        
+
         if len(guess) != 1 or not guess.isalpha():
             print("Invalid input. Please enter a single alphabetic character.")
         elif guess in guessed_letters:
@@ -122,29 +144,32 @@ def hangman(word_list):
             print(f"Good guess! '{guess}' is in the word.")
             guessed_letters.add(guess)
             word_letters.remove(guess)
-            if not word_letters: 
+            if not word_letters:
                 print(f"\nCongratulations! You guessed the word '{word}'!")
                 break
         else:
             print(f"Sorry, '{guess}' is not in the word.")
             guessed_letters.add(guess)
             incorrect_guesses += 1
-    
+
     if word_letters:
         print(hangman_stages[incorrect_guesses])
         print(f"\nYou lost! The word was '{word}'.")
+
 
 def main():
     print('Welcome to Hangman!')
     print('Please select from one of the following game modes...')
     while True:
-        word_list = select_game_mode()  
+        word_list = select_game_mode()
         hangman(word_list)
         replay = input("Do you want to play again? (yes/no): ").lower()
         if replay == 'no':
-            continue  
+            continue
         elif replay != 'yes':
-            break  
+            break
+
 
 # Run the game
-main()
+if __name__ == "__main__":
+    main()
